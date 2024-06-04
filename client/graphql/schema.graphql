@@ -1,0 +1,13 @@
+type List {
+  id: ID!
+  title: String!
+  tasks: Task[]
+}
+
+type Task {
+  id: ID!
+  description: String!
+  completed: Boolean!
+  due_date: Date!
+}
+
