@@ -11,7 +11,7 @@
   list = List.create!(title: Faker::Movie.title)
   5.times do
     list.tasks.create!(
-      description: Faker::Movie.title,
+      description: 'Watch ' + Faker::Movie.title,
       completed: Faker::Boolean.boolean(true_ratio: 0.5),
       due_date: Faker::Date.forward(days: 30)
     )
