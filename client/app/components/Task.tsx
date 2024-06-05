@@ -23,12 +23,12 @@ export const Task = ({ id, description, completed, dueDate }: TaskProps) => {
   return (
     <div className="flex items-center justify-between space-x-2">
       <div
-        className={`border-4 p-1 rounded-full flex items-center border-indigo-500 cursor-pointer`}
+        className={`border-4 p-1 rounded-full flex items-center border-[--primary] cursor-pointer`}
         onClick={toggleCompleted}
       >
         <div
           className={`transition rounded-full h-2 w-2 ${
-            completed && "bg-indigo-500"
+            completed && "bg-[--primary]"
           }`}
         />
       </div>
