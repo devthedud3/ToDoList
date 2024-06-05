@@ -15,7 +15,7 @@ export const List = () => {
   const { lists } = data;
 
   return (
-    <div className="w-full flex flex-wrap">
+    <div className="w-full flex flex-wrap justify-center">
       {lists.map((list: any, index: number) => (
         <div
           className="w-[512px] px-6 h-fit m-5 rounded bg-stone-100 py-10 border space-y-6"
