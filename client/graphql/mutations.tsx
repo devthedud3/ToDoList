@@ -1,5 +1,21 @@
 import { gql } from "@apollo/client";
 
+export const CREATE_LIST = gql`
+  mutation CreateList($input: CreateListInput!) {
+    createList(input: $input) {
+      list {
+        id
+        title
+        tasks {
+          description
+          id
+          dueDate
+        }
+      }
+    }
+  }
+`;
+
 export const DELETE_LIST = gql`
   mutation DeleteList($input: DeleteListInput!) {
     deleteList(input: $input) {
