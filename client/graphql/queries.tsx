@@ -15,28 +15,3 @@ export const GET_LIST = gql`
     }
   }
 `;
-
-export const getAllTasks = gql`
-  query {
-    tasks {
-      id
-      title
-      description
-      completed
-      dueDate
-      createdAt
-    }
-  }
-`;
-
-export const getTask = gql`
-  query GetTask($id: ID!) {
-    task(id: $id) {
-      id
-      title
-      description
-      completed
-      dueDate
-    }
-  }
-`;
