@@ -16,6 +16,25 @@ export const CREATE_LIST = gql`
   }
 `;
 
+export const UPDATE_LIST = gql`
+  mutation UpdateList($input: UpdateListInput!) {
+    updateList(input: $input) {
+      list {
+        id
+        title
+        tasks {
+          __typename
+          id
+          description
+          completed
+          dueDate
+        }
+      }
+      response
+    }
+  }
+`;
+
 export const DELETE_LIST = gql`
   mutation DeleteList($input: DeleteListInput!) {
     deleteList(input: $input) {
