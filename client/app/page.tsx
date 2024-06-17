@@ -6,8 +6,8 @@ import { List } from "./components/List";
 export default function Home() {
   return (
     <ApolloProvider client={client}>
-      <main className="flex min-h-screen flex-col items-center p-24">
-        {/* <h1 className="text-3xl mb-10">A Savvy Labs Task Manager</h1> */}
+      <main className="flex min-h-screen flex-col p-16">
+        <h3 className="text-3xl font-black">A Simple To-do List</h3>
         <List />
       </main>
     </ApolloProvider>
