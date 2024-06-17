@@ -2,28 +2,36 @@
 
 module Mutations
   class UpdateTask < BaseMutation
-
     field :task, Types::TaskType, null: false
     field :message, [String], null: false
 
     argument :id, String, required: true
-    argument :completed, Boolean, required: true
+    argument :description, String, required: false
+    argument :completed, Boolean, required: false
 
-
-    def resolve(id:, completed:)
+    def resolve(id:, description: nil, completed: nil)
       task = Task.find(id)
-      task.update(completed: completed)
-      if task.save
+
+      params = {}
+      params[:description] = description if description
+      params[:completed] = completed unless completed.nil?
+
+      if task.update(params)
         { 
           task: task, 
           message: [] 
         }
-        else
+      else
         { 
           task: nil, 
-          message: task.errors.full_message
+          message: task.errors.full_messages 
         }
       end
+    rescue ActiveRecord::RecordNotFound
+      {
+        task: nil,
+        message: ["Task not found"]
+      }
     end
   end
 end
