@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CiCircleRemove } from "react-icons/ci";
 import { useQuery } from "@apollo/client";
 import { GET_LIST } from "@/graphql/queries";
 import { DELETE_LIST } from "@/graphql/mutations";
@@ -8,6 +9,8 @@ import { AddTask } from "./AddTask";
 
 export const List = () => {
   const [list, setList] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState("");
   const { data, error, loading } = useQuery(GET_LIST);
 
   useEffect(() => {
@@ -18,36 +21,53 @@ export const List = () => {
   }, []);
 
   useEffect(() => {
-    if (data && list.length !== 0) {
-      console.log("here");
+    if (data) {
       const { lists } = data;
       localStorage.setItem("lists", JSON.stringify(lists));
       setList(lists);
     }
-  }, [data, error, loading]);
+  }, [data]);
+
+  const handleChange = (e: any) => {
+    setTitle(e.target.value);
+  };
 
   if (loading) return <p>Loading..</p>;
   if (error) return <p>Error loading tasks, try refreshing the page</p>;
 
   return (
-    <div className="w-full flex flex-wrap justify-center">
-      {list.map((list: any, index: number) => (
+    <div className="w-full flex flex-wrap">
+      {list.map((listItem: any, index) => (
         <div
-          className="w-[512px] px-6 h-fit m-5 rounded bg-stone-100 py-10 border space-y-6"
-          key={`${list}-${index}`}
+          className="w-[412px] px-6 h-fit m-5 ml-0 rounded bg-stone-100 py-10 border space-y-6"
+          key={listItem.id}
         >
           <div className="w-full border-b flex items-start justify-between">
-            <h1 className="text-xl font-medium pb-2">{list.title}</h1>
+            <div
+              className="text-xl font-medium pb-2"
+              onClick={() => setEditing(!editing)}
+            >
+              {editing ? (
+                <input
+                  value={title}
+                  placeholder={listItem.title}
+                  onChange={handleChange}
+                />
+              ) : (
+                <h1>{listItem.title}</h1>
+              )}
+            </div>
+
             <Button
-              name="x"
+              icon={<CiCircleRemove />}
               type={DELETE_LIST}
-              variables={{ id: `${list.id}` }}
+              variables={{ id: listItem.id }}
             />
           </div>
-          {list.tasks?.map((task: any) => (
-            <Task key={`${task.id}${task.description}`} {...task} />
+          {listItem.tasks?.map((task: any) => (
+            <Task key={task.id} {...task} />
           ))}
-          <AddTask list_id={`${list.id}`} />
+          <AddTask list_id={listItem.id} />
         </div>
       ))}
     </div>
