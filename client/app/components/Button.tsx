@@ -4,14 +4,24 @@ import { DocumentNode } from "graphql";
 import React from "react";
 
 type ButtonProps = {
-  name: String;
+  name?: String;
   type: DocumentNode;
+  icon?: any;
   variables?: any;
+  onClick?: () => void;
 };
-export const Button = ({ name, type, variables }: ButtonProps) => {
+export const Button = ({
+  name,
+  type,
+  variables,
+  icon,
+  onClick,
+}: ButtonProps) => {
   const [resolve, { data, error, loading }] = useMutation(type);
 
   async function handleClick() {
+    //@ts-ignore
+    onClick && onClick();
     await resolve({
       variables: { input: variables },
       refetchQueries: [GET_LIST],
@@ -25,7 +35,7 @@ export const Button = ({ name, type, variables }: ButtonProps) => {
       className={`transition w-fit text-xs border rounded-full p-2 cursor-pointer hover:bg-[--primary] hover:text-white`}
       onClick={handleClick}
     >
-      {name}
+      {icon ? icon : name}
     </button>
   );
 };
