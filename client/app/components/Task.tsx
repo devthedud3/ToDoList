@@ -1,20 +1,25 @@
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
+import { HiPencil, HiOutlineTrash, HiCheck } from "react-icons/hi2";
+
 import { UPDATE_TASK, DELETE_TASK } from "@/graphql/mutations";
-import { Button } from "./Button";
+import { Action } from "./ActionIcon";
 
 type TaskProps = {
-  id: String;
-  description: String;
-  completed: Boolean;
-  dueDate: String;
+  id: string;
+  description: string;
+  completed: boolean;
+  dueDate: string;
 };
 
 export const Task = ({ id, description, completed, dueDate }: TaskProps) => {
-  const [update, { data, error, loading }] = useMutation(UPDATE_TASK);
+  const [editing, setEditing] = useState(false);
+  const [updatedDescription, setUpdatedDescription] = useState(description);
+  const [update, { error }] = useMutation(UPDATE_TASK);
 
-  function toggleCompleted() {
-    update({ variables: { input: { id: id, completed: !completed } } });
-  }
+  const toggleCompleted = () => {
+    update({ variables: { input: { id, completed: !completed } } });
+  };
 
   const completedStyle = "transition-text line-through text-zinc-400";
 
@@ -23,7 +28,7 @@ export const Task = ({ id, description, completed, dueDate }: TaskProps) => {
   return (
     <div className="flex items-center justify-between space-x-2">
       <div
-        className={`border-4 p-1 rounded-full flex items-center border-[--primary] cursor-pointer`}
+        className="border-2 p-[1px] rounded-full flex items-center border-[--primary] cursor-pointer"
         onClick={toggleCompleted}
       >
         <div
@@ -32,13 +37,43 @@ export const Task = ({ id, description, completed, dueDate }: TaskProps) => {
           }`}
         />
       </div>
-      <div className="block w-full cursor-pointer" onClick={toggleCompleted}>
-        <p className={`${completed && completedStyle} text-sm`}>
-          {description}
-        </p>
-        <p className={`${completed && completedStyle} text-xs`}>{dueDate}</p>
-      </div>
-      <Button name="delete" type={DELETE_TASK} variables={{ id: id }} />
+
+      {editing ? (
+        <input
+          className="text-sm p-2 w-full"
+          type="text"
+          value={updatedDescription}
+          placeholder={description}
+          onChange={(e) => setUpdatedDescription(e.currentTarget.value)}
+        />
+      ) : (
+        <div className="block w-full cursor-pointer" onClick={toggleCompleted}>
+          <p className={`${completed && completedStyle} text-sm`}>
+            {description}
+          </p>
+          <p className={`${completed && completedStyle} text-xs`}>
+            {/* Due: {dueDate} */}
+          </p>
+        </div>
+      )}
+
+      {!editing ? (
+        <div
+          className="transition w-fit text-xs border rounded-full p-2 cursor-pointer hover:bg-[--primary] hover:text-white"
+          onClick={() => setEditing(true)}
+        >
+          <HiPencil />
+        </div>
+      ) : (
+        <Action
+          onClick={() => setEditing(false)}
+          icon={<HiCheck />}
+          type={UPDATE_TASK}
+          variables={{ id, description: updatedDescription }}
+        />
+      )}
+
+      <Action icon={<HiOutlineTrash />} type={DELETE_TASK} variables={{ id }} />
     </div>
   );
 };
