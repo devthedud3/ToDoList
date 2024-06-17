@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client";
 import { HiPencil, HiOutlineTrash, HiCheck } from "react-icons/hi2";
 
 import { UPDATE_TASK, DELETE_TASK } from "@/graphql/mutations";
-import { Action } from "./ActionIcon";
+import { Button } from "./Button";
 
 type TaskProps = {
   id: string;
@@ -65,7 +65,7 @@ export const Task = ({ id, description, completed, dueDate }: TaskProps) => {
           <HiPencil />
         </div>
       ) : (
-        <Action
+        <Button
           onClick={() => setEditing(false)}
           icon={<HiCheck />}
           type={UPDATE_TASK}
@@ -73,7 +73,7 @@ export const Task = ({ id, description, completed, dueDate }: TaskProps) => {
         />
       )}
 
-      <Action icon={<HiOutlineTrash />} type={DELETE_TASK} variables={{ id }} />
+      <Button icon={<HiOutlineTrash />} type={DELETE_TASK} variables={{ id }} />
     </div>
   );
 };
