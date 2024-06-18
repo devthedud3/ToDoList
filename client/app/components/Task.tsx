@@ -52,9 +52,7 @@ export const Task = ({ id, description, completed, dueDate }: TaskProps) => {
           <p className={`${completed && completedStyle} text-sm`}>
             {description}
           </p>
-          <p className={`${completed && completedStyle} text-xs`}>
-            {/* Due: {dueDate} */}
-          </p>
+          <p className={`${completed && completedStyle} text-xs`}></p>
         </div>
       )}
 
