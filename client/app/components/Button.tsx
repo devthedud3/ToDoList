@@ -1,4 +1,4 @@
-import { GET_LIST } from "@/graphql/queries";
+import GET_LIST from "@/graphql/queries/GET_LIST";
 import { useMutation } from "@apollo/client";
 import { DocumentNode } from "graphql";
 import React from "react";
