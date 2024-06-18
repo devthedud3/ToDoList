@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { CREATE_TASK } from "@/graphql/mutations";
-import { GET_LIST } from "@/graphql/queries";
+import CREATE_TASK from "@/graphql/mutations/CREATE_TASK";
+
+import GET_LIST from "@/graphql/queries/GET_LIST";
 
 type AddTask = {
   list_id: String;
