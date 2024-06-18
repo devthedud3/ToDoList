@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { HiPencil, HiOutlineTrash, HiCheck } from "react-icons/hi2";
+import UPDATE_TASK from "@/graphql/mutations/UPDATE_TASK";
+import DELETE_TASK from "@/graphql/mutations/DELETE_TASK";
 
-import { UPDATE_TASK, DELETE_TASK } from "@/graphql/mutations";
 import { Button } from "./Button";
 
 type TaskProps = {
